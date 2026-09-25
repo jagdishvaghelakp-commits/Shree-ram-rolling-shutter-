@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>SHREE RAM ROLLING SHUTTER</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  background: #111;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+#game {
+  width: 100vw;
+  height: 100vh;
+  max-width: 800px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  background:
+    linear-gradient(#d69a58 0 48%, #65442d 48% 100%);
+}
+
+/* HEADER */
+#header {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  z-index: 20;
+  background: #171717ee;
+  border-radius: 14px;
+  padding: 8px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+/* SHOP SIGN */
+#sign {
+  position: absolute;
+  top: 78px;
+  left: 5%;
+  right: 5%;
+  background: #f4d35e;
+  color: #941d17;
+  border: 4px solid #941d17;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* MACHINE */
+.machine {
+  position: absolute;
+  top: 155px;
+  left: 4%;
+  width: 44%;
+  height: 205px;
+  background: #505050;
+  border: 5px solid #292929;
+  border-radius: 14px;
+  z-index: 5;
+}
+
+.machine h3 {
+  margin: 0;
+  padding: 8px;
+  background: #272727;
+  text-align: center;
+  font-size: 13px;
+}
+
+.rollers {
+  height: 60px;
+  margin: 20px 12px;
+  border: 4px solid #222;
+  background: repeating-linear-gradient(
+    0deg,
+    #aaa 0 9px,
+    #666 9px 13px
+  );
+}
+
+.belt {
+  position: absolute;
+  bottom: 13px;
+  left: 12px;
+  right: 12px;
+  height: 27px;
+  border-radius: 15px;
+  background: repeating-linear-gradient(
+    90deg,
+    #222 0 18px,
+    #777 18px 27px
+  );
+  animation: beltMove .7s linear infinite;
+}
+
+@keyframes beltMove {
+  to {
+    background-position: 54px 0;
+  }
+}
+
+/* FITTING AREA */
+.fitting {
+  position: absolute;
+  top: 155px;
+  right: 4%;
+  width: 44%;
+  height: 205px;
+  background: #505050;
+  border: 5px solid #292929;
+  border-radius: 14px;
+  z-index: 5;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.workbench {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 40px;
+  height: 18px;
+  background: #222;
+}
+
+.tools {
+  position: absolute;
+  bottom: 65px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  font-size: 25px;
+}
+
+/* PLAYER */
+#player {
+  position: absolute;
+  z-index: 15;
+  left: 42%;
+  bottom: 115px;
+  width: 54px;
+  height: 100px;
+  transition: left .12s;
+}
+
+.head {
+  width: 34px;
+  height: 34px;
+  margin: auto;
+  border-radius: 50%;
+  background: #9b603c;
+  border: 3px solid #542f20;
+}
+
+.body {
+  width: 48px;
+  height: 57px;
+  margin: auto;
+  background: #b5221a;
+  border: 3px solid #64110d;
+  border-radius: 10px;
+}
+
+.legs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.legs i {
+  width: 11px;
+  height: 23px;
+  background: #222;
+  border-radius: 5px;
+}
+
+/* SHUTTER */
+#shutter {
+  display: none;
+  position: absolute;
+  z-index: 12;
+  left: 43%;
+  top: 265px;
+  width: 96px;
+  height: 100px;
+  border: 5px solid #333;
+  background: repeating-linear-gradient(
+    #aaa 0 9px,
+    #666 9px 13px
+  );
+  animation: shutterOut 1s ease-out;
+}
+
+@keyframes shutterOut {
+  from {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* CUSTOMER */
+.customer {
+  position: absolute;
+  right: 7%;
+  bottom: 115px;
+  z-index: 10;
+}
+
+.customerHead {
+  width: 34px;
+  height: 34px;
+  margin: auto;
+  border-radius: 50%;
+  background: #9b603c;
+  border: 3px solid #542f20;
+}
+
+.customerBody {
+  width: 62px;
+  height: 58px;
+  background: #285b7d;
+  border-radius: 12px;
+}
+
+/* MESSAGE */
+#message {
+  display: none;
+  position: absolute;
+  z-index: 40;
+  top: 125px;
+  left: 8%;
+  right: 8%;
+  background: white;
+  color: #222;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* ORDER MENU */
+#orderMenu {
+  display: none;
+  position: absolute;
+  z-index: 50;
+  top: 22%;
+  left: 8%;
+  right: 8%;
+  background: white;
+  color: #222;
+  padding: 15px;
+  border-radius: 16px;
+}
+
+.menuButton {
+  width: 100%;
+  margin: 6px 0;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #b5221a;
+  color: white;
+  font-weight: bold;
+}
+
+/* CONTROLS */
+.controls {
+  position: absolute;
+  z-index: 30;
+  left: 7px;
+  right: 7px;
+  bottom: 7px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pad {
+  display: grid;
+  grid-template-columns: 50px 50px 50px;
+  gap: 4px;
+}
+
+.controls button {
+  height: 45px;
+  border: 0;
+  border-radius: 11px;
+  font-weight: bold;
+}
+
+.blank {
+  visibility: hidden;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.actions button {
+  width: 105px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+  <div id="header">
+    🛕 SHREE RAM ROLLING SHUTTER
+
+    <div class="stats">
+      <span>💰 <b id="coins">10000000000</b></span>
+      <span>⭐ Level <b id="level">1</b>/100</span>
+      <span>📦 <b id="orders">0</b></span>
+    </div>
+  </div>
+
+  <div id="sign">
+    SHREE RAM ROLLING SHUTTER WORKSHOP
+  </div>
+
+  <!-- MACHINE -->
+  <div class="machine">
+    <h3>⚙️ SHUTTER MAKING MACHINE</h3>
+    <div class="rollers"></div>
+    <div class="belt"></div>
+  </div>
+
+  <!-- FITTING -->
+  <div class="fitting">
+    <b>🔧 FITTING PLACE</b>
+
+    <div class="workbench"></div>
+
+    <div class="tools">
+      <span>🔨</span>
+      <span>🔧</span>
+      <span>⚡</span>
+    </div>
+  </div>
+
+  <!-- SHUTTER -->
+  <div id="shutter"></div>
+
+  <!-- PLAYER -->
+  <div id="player">
+    <div class="head"></div>
+    <div class="body"></div>
+
+    <div class="legs">
+      <i></i>
+      <i></i>
+    </div>
+  </div>
+
+  <!-- CUSTOMER -->
+  <div class="customer">
+    <div class="customerHead"></div>
+    <div class="customerBody"></div>
+  </div>
+
+  <div id="message"></div>
+
+  <!-- ORDER MENU -->
+  <div id="orderMenu">
+
+    <h2>📦 Customer Order</h2>
+
+    <button
+      class="menuButton"
+      onclick="startOrder('Normal')">
+      Normal Shutter
+    </button>
+
+    <button
+      class="menuButton"
+      onclick="startOrder('Gear')">
+      Gear Shutter
+    </button>
+
+    <button
+      class="menuButton"
+      onclick="startOrder('Remote')">
+      Remote Shutter
+    </button>
+
+    <button
+      class="menuButton"
+      onclick="closeMenu()">
+      Close
+    </button>
+
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+
+    <div class="pad">
+
+      <button class="blank"></button>
+
+      <button onclick="movePlayer(1)">
+        ▲
+      </button>
+
+      <button class="blank"></button>
+
+      <button onclick="movePlayer(-1)">
+        ◀
+      </button>
+
+      <button onclick="movePlayer(0)">
+        ▼
+      </button>
+
+      <button onclick="movePlayer(1)">
+        ▶
+      </button>
+
+    </div>
+
+    <div class="actions">
+
+      <button onclick="openOrder()">
+        📦 ORDER
+      </button>
+
+      <button onclick="action()">
+        🔧 ACTION
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+let playerX = 42;
+
+let state = "idle";
+
+let shutterType = "";
+
+let coins = 10000000000;
+
+let level = 1;
+
+let orders = 0;
+
+const player =
+  document.getElementById("player");
+
+const shutter =
+  document.getElementById("shutter");
+
+function movePlayer(direction) {
+
+  if (direction === -1) {
+    playerX -= 5;
+  }
+
+  if (direction === 1) {
+    playerX += 5;
+  }
+
+  playerX =
+    Math.max(
+      3,
+      Math.min(88, playerX)
+    );
+
+  player.style.left =
+    playerX + "%";
+}
+
+function showMessage(text) {
+
+  const box =
+    document.getElementById("message");
+
+  box.textContent = text;
+
+  box.style.display = "block";
+
+  setTimeout(function () {
+
+    box.style.display = "none";
+
+  }, 1800);
+}
+
+function openOrder() {
+
+  if (state !== "idle") {
+
+    showMessage(
+      "પહેલા હાલનો order પૂરો કરો."
+    );
+
+    return;
+  }
+
+  document.getElementById(
+    "orderMenu"
+  ).style.display = "block";
+}
+
+function closeMenu() {
+
+  document.getElementById(
+    "orderMenu"
+  ).style.display = "none";
+}
+
+function startOrder(type) {
+
+  shutterType = type;
+
+  state = "machine";
+
+  closeMenu();
+
+  showMessage(
+    "📦 " +
+    type +
+    " shutter order શરૂ થયો!"
+  );
+}
+
+function action() {
+
+  if (state === "idle") {
+
+    openOrder();
+
+    return;
+  }
+
+  /* MACHINE */
+
+  if (state === "machine") {
+
+    showMessage(
+      "⚙️ Machine shutter બનાવી રહી છે..."
+    );
+
+    setTimeout(function () {
+
+      shutter.style.display = "block";
+
+      state = "carry";
+
+      showMessage(
+        "🚪 Shutter તૈયાર થઈ ગયો!"
+      );
+
+    }, 1200);
+
+    return;
+  }
+
+  /* CARRY TO FITTING */
+
+  if (state === "carry") {
+
+    state = "fitting";
+
+    showMessage(
+      "🔧 Fitting શરૂ કરો."
+    );
+
+    return;
+  }
+
+  /* FITTING */
+
+  if (state === "fitting") {
+
+    state = "welding";
+
+    showMessage(
+      "⚡ Bottom welding કરો."
+    );
+
+    return;
+  }
+
+  /* WELDING / COMPLETE */
+
+  if (state === "welding") {
+
+    let reward = 250;
+
+    if (shutterType === "Gear") {
+
+      reward = 450;
+
+    }
+
+    if (shutterType === "Remote") {
+
+      reward = 700;
+
+    }
+
+    reward += level * 25;
+
+    coins += reward;
+
+    orders++;
+
+    if (
+      orders % 3 === 0 &&
+      level < 100
+    ) {
+
+      level++;
+
+    }
+
+    document.getElementById(
+      "coins"
+    ).textContent = coins;
+
+    document.getElementById(
+      "orders"
+    ).textContent = orders;
+
+    document.getElementById(
+      "level"
+    ).textContent = level;
+
+    shutter.style.display = "none";
+
+    state = "idle";
+
+    showMessage(
+      "🎉 Order Complete! +" +
+      reward +
+      " Coins"
+    );
+
+  }
+
+}
+
+/* KEYBOARD SUPPORT */
+
+window.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (event.key === "ArrowLeft") {
+
+      movePlayer(-1);
+
+    }
+
+    if (event.key === "ArrowRight") {
+
+      movePlayer(1);
+
+    }
+
+    if (event.key === " ") {
+
+      action();
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
